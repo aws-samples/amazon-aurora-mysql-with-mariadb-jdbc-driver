@@ -1,0 +1,9 @@
+8e927d3a-93db-4f70-83db-abd0a1b95211\:credentialProfileName=mldemo
+9821f5ff-1af0-488a-ba17-d515de17817c\:credentialProfileName=default
+cognitoIdentityId=us-east-1\:04f603c3-6804-4d03-a7b5-10a3358a4476
+cognitoIdentityPoolId=us-east-1\:d4fdc07f-94fd-4cc6-94fb-f903657f05c1
+credentialProfileAccountIds=8e927d3a-93db-4f70-83db-abd0a1b95211|9821f5ff-1af0-488a-ba17-d515de17817c
+currentAccount=9821f5ff-1af0-488a-ba17-d515de17817c
+currentDefaultAccount=
+ec2PreferencesImported=true
+eclipse.preferences.version=1
