@@ -159,7 +159,7 @@ Now let's force a failover by changing the role of the replica from reader to wr
 
 	aws rds failover-db-cluster --db-cluster-identifier auroradbcluster-us-west-2 --target-db-instance-identifier auroradbnode-2-us-west-2b
 	
-On running the command it return the following output:
+Note that the above command should return a json format key-value output with details of your cluster and the failover change. I'm only showing the beginning of the output below.
 
 	{
 	    "DBCluster": {
@@ -170,59 +170,9 @@ On running the command it return the following output:
 	            "us-west-2b"
 	        ],
 	        "BackupRetentionPeriod": 1,
-	        "DatabaseName": "auroradbtest",
+	        "DatabaseName": "xxxx",
 	        "DBClusterIdentifier": "auroradbcluster-us-west-2",
-	        "DBClusterParameterGroup": "default.aurora-mysql5.7",
-	        "DBSubnetGroup": "awseb-e-4bqpb2izki-stack-awsebrdsdbsubnetgroup-mrm750xsz1y4",
-	        "Status": "available",
-	        "EarliestRestorableTime": "2020-07-27T11:36:16.714Z",
-	        "Endpoint": "auroradbcluster-us-west-2.cluster-cgdued2pbbld.us-west-2.rds.amazonaws.com",
-	        "ReaderEndpoint": "auroradbcluster-us-west-2.cluster-ro-cgdued2pbbld.us-west-2.rds.amazonaws.com",
-	        "MultiAZ": true,
-	        "Engine": "aurora-mysql",
-	        "EngineVersion": "5.7.12",
-	        "LatestRestorableTime": "2020-07-28T23:54:50.921Z",
-	        "Port": 3306,
-	        "MasterUsername": "xxxxxxxx",
-	        "PreferredBackupWindow": "11:28-11:58",
-	        "PreferredMaintenanceWindow": "sat:12:16-sat:12:46",
-	        "ReadReplicaIdentifiers": [],
-	        "DBClusterMembers": [
-	            {
-	                "DBInstanceIdentifier": "auroradbnode-2-us-west-2b",
-	                "IsClusterWriter": false,
-	                "DBClusterParameterGroupStatus": "pending-reboot",
-	                "PromotionTier": 1
-	            },
-	            {
-	                "DBInstanceIdentifier": "auroradbnode-1-us-west-2a",
-	                "IsClusterWriter": true,
-	                "DBClusterParameterGroupStatus": "in-sync",
-	                "PromotionTier": 1
-	            }
-	        ],
-	        "VpcSecurityGroups": [
-	            {
-	                "VpcSecurityGroupId": "sg-0bcdadbbd64013e6b",
-	                "Status": "active"
-	            }
-	        ],
-	        "HostedZoneId": "Z1PVIF0B656C1W",
-	        "StorageEncrypted": true,
-	        "KmsKeyId": "arn:aws:kms:us-west-2:xxxxxxx:key/b286e412-6b05-40f2-9923-6dcbb3f57c48",
-	        "DbClusterResourceId": "cluster-KIG64YBWUMRXD3UJJJZUPNRUGA",
-	        "DBClusterArn": "arn:aws:rds:us-west-2:xxxxxxx:cluster:auroradbcluster-us-west-2",
-	        "AssociatedRoles": [],
-	        "IAMDatabaseAuthenticationEnabled": false,
-	        "ClusterCreateTime": "2019-01-23T16:21:57.573Z",
-	        "EngineMode": "provisioned",
-	        "DeletionProtection": false,
-	        "HttpEndpointEnabled": false,
-	        "CopyTagsToSnapshot": false,
-	        "CrossAccountClone": false,
-	        "DomainMemberships": []
-	    }
-	}
+	        ...
 
 If we re-run our java client program DbClient_QueryClusterNodes.java again we can see that the previous master node (auroradbnode-2-us-west-2a)is now a replica while the previous replica (auroradbnode-2-us-west-2b) has been promoted to master. See screenshot below.
 
