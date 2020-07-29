@@ -89,8 +89,8 @@ public class DbClient_InsertRecord {
     }
 
     public static void main(String[] args) {
-        String masterServer = "";
-        String slaveServer = "";
+        String primaryNode = "";
+        String secondaryNode = "";
         try {
             // STEP 2: Register JDBC driver
             Class.forName(JDBC_DRIVER);
@@ -107,18 +107,18 @@ public class DbClient_InsertRecord {
                 try (Statement stmt = conn.createStatement()) {
                     //String sql =   "SELECT SERVER_ID, SESSION_ID FROM INFORMATION_SCHEMA.REPLICA_HOST_STATUS";
                     String sql = "USE auroradbtest;" + "INSERT INTO VENDORS (id, name, CEO, VAT_Number) VALUES (2, 'Amazon', 'Jeff Bezos', 22222)";
-                   // System.out.println("Printing master and slave nodes of the db cluster...");
+                   // System.out.println("Printing primary and replica nodes of the db cluster...");
 
                     /*
                     ResultSet rs = stmt.executeQuery("SELECT SERVER_ID, SESSION_ID FROM INFORMATION_SCHEMA.REPLICA_HOST_STATUS");
                     while (rs.next()) {
                         if (rs.getString(2).equals("MASTER_SESSION_ID"))
-                            masterServer = rs.getString(1); // the node that is the master currently has a session named MASTER_SESSION_ID
+                            primaryNode = rs.getString(1); // the node that is the primary currently has a session named MASTER_SESSION_ID
                             //System.out.println(rs);
                         else
-                            slaveServer += (("".equals(slaveServer)) ? "" : ",") + rs.getString(1); // other nodes ares replicas
+                            secondaryNode += (("".equals(secondaryNode)) ? "" : ",") + rs.getString(1); // other nodes ares replicas
 
-                        //Printing out endpoint with their session_Id indicating which is master or replica
+                        //Printing out endpoint with their session_Id indicating which is primary or replica
                         System.out.println(rs.getString(1)+ " "+rs.getString(2));
                     }
 
