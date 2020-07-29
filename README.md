@@ -1,7 +1,7 @@
 # Using the MariaDB JDBC driver with Amazon Aurora with MySQL compatibility
 
 ## Overview
-In this lab, we demonstrate how to use the MariaDB JDBC driver also known as MariaDB Connector/J, to connect to an [Amazon Aurora](https://aws.amazon.com/rds/aurora/) cluster. We use a combination of a small custom Java client program, AWS CLI and a terminal to showcase how the automatic failover capability of the connector allows switching rapidly and seamlessly between master and replica in a failover situation. You can have a quick read through of the following [blog post](https://aws.amazon.com/blogs/database/using-the-mariadb-jdbc-driver-with-amazon-aurora-with-mysql-compatibility/) if you do not wish to complete the lab.
+In this lab, we demonstrate how to use the MariaDB JDBC driver also known as MariaDB Connector/J, to connect to an [Amazon Aurora](https://aws.amazon.com/rds/aurora/) cluster. We use a combination of a small custom Java client program, AWS CLI and a terminal to showcase how the automatic failover capability of the connector allows switching rapidly and seamlessly between primary and replica in a failover situation. You can have a quick read through of the following [blog post](https://aws.amazon.com/blogs/database/using-the-mariadb-jdbc-driver-with-amazon-aurora-with-mysql-compatibility/) if you do not wish to complete the lab.
 
 ## Learning objectives
 In this lab you will learn the following:
@@ -79,15 +79,15 @@ We have just demonstrated how to use the MariaDB JDBC driver known as MariaDB Co
 
 In the second part of this demo, we demonstrate how the MariaDB Connector/J failover capability works with Aurora automatic failover.
 
-To do that, use the DbClient_QueryClusterNodes.java which is a modified version of the DbClient.java that connects to the database cluster and runs a query to read from the INFORMATION_SCHEMA table the endpoint (master or replica) to which the current connection is pointing to. As we can see from the screenshot below the current primary node (master) is auroradbnode-1-us-west-2a
+To do that, use the DbClient_QueryClusterNodes.java which is a modified version of the DbClient.java that connects to the database cluster and runs a query to read from the INFORMATION_SCHEMA table the endpoint (primary or replica) to which the current connection is pointing to. As we can see from the screenshot below the current primary node (primary) is auroradbnode-1-us-west-2a
 
-![alt text](img/masterslave.png)
+![alt text](img/primaryreplica.png)
 
 Now let’s try to run a query to inserting a record on the database. To better illustrate the failover scenario, we connect to each node endpoint separately and run queries to try adding data to the VENDORS table. That way, we can show that we can’t insert data to the database while connected to the replica endpoint because it has read-only permissions.
 
-### Connecting to the master endpoint
+### Connecting to the primary endpoint
 
-This time we use mysql client from a terminal to connect to the master node of our database. The same can also be done with the java client program.
+This time we use mysql client from a terminal to connect to the primary node of our database. The same can also be done with the java client program.
 
 	mysql -u auroradbtest -h auroradbnode-1-us-west-2a.cgdued2pbbld.us-west-2.rds.amazonaws.com -p
 	Enter password: 
@@ -176,11 +176,11 @@ Note that the above command should return a json format key-value output with de
 	        "DBClusterIdentifier": "auroradbcluster-us-west-2",
 	        ...
 
-If we re-run our java client program DbClient_QueryClusterNodes.java again we can see that the previous master node (auroradbnode-2-us-west-2a)is now a replica while the previous replica (auroradbnode-2-us-west-2b) has been promoted to master. See screenshot below.
+If we re-run our java client program DbClient_QueryClusterNodes.java again we can see that the previous primary node (auroradbnode-2-us-west-2a)is now a replica while the previous replica (auroradbnode-2-us-west-2b) has been promoted to primary. See screenshot below.
 
 ![alt text](img/failover.png)
 
-Similarly, if we rerun the insert query to add data to the VENDORS table while connected to the previous replica endpoint which has now been promoted to master, we are able to successfully add record to the table as shown from the output below.
+Similarly, if we rerun the insert query to add data to the VENDORS table while connected to the previous replica endpoint which has now been promoted to primary, we are able to successfully add record to the table as shown from the output below.
 
 	mysql -u auroradbtest -h auroradbnode-2-us-west-2b.cgdued2pbbld.us-west-2.rds.amazonaws.com -p
 	Enter password: 
