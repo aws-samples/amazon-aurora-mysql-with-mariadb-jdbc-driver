@@ -1,5 +1,7 @@
 # Using the MariaDB JDBC driver with Amazon Aurora with MySQL compatibility
-Use the MariaDB JDBC driver, known as MariaDB Connector/J, to connect to an [Amazon Aurora](https://aws.amazon.com/rds/aurora/) cluster. We demonstrate how the automatic failover capability of the connector allows switching rapidly and seamlessly between master and replica in a failover situation. You can have a quick read through of the following [blog post](https://aws.amazon.com/blogs/database/using-the-mariadb-jdbc-driver-with-amazon-aurora-with-mysql-compatibility/) if you do not wish to complete the lab.
+
+## Overview
+In this lab, we demonstrate how to use the MariaDB JDBC driver also known as MariaDB Connector/J, to connect to an [Amazon Aurora](https://aws.amazon.com/rds/aurora/) cluster. We use a combination of a small custom Java client program, AWS CLI and a terminal to showcase how the automatic failover capability of the connector allows switching rapidly and seamlessly between master and replica in a failover situation. You can have a quick read through of the following [blog post](https://aws.amazon.com/blogs/database/using-the-mariadb-jdbc-driver-with-amazon-aurora-with-mysql-compatibility/) if you do not wish to complete the lab.
 
 ## Learning objectives
 In this lab you will learn the following:
